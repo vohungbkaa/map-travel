@@ -12,7 +12,7 @@
         </router-link>
 
         <nav class="nav-links">
-          <router-link to="/a/ha-noi" class="nav-link" active-class="active">
+          <router-link to="/hn/ha-noi" class="nav-link" active-class="active">
             Demo Area (Ha Noi)
           </router-link>
           <router-link to="/admin" class="btn btn-secondary btn-sm-nav">

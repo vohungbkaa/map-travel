@@ -260,5 +260,52 @@ export const mockPlaces: Place[] = [
         title: 'Hồ sen trước đền Quán Thánh'
       }
     ]
+  },
+  {
+    id: 12,
+    name: 'Đình Bạch Trữ',
+    category: 'Lịch Sử',
+    summary: 'Di tích lịch sử cấp Quốc gia có từ thế kỷ 17 với kiến trúc điêu khắc chạm trổ tinh xảo.',
+    description: 'Đình Bạch Trữ thờ Công chúa Thiên Tiên Mỵ Nương và Hoàng Cống Sơn (tướng Hai Bà Trưng). Đây là công trình kiến trúc nghệ thuật điêu khắc gỗ tinh xảo thời Lê Trung Hưng còn lưu giữ được nguyên vẹn.',
+    lat: 21.2018,
+    lng: 105.6925,
+    coverUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
+    bestTime: 'Sáng sớm hoặc dịp Lễ hội truyền thống đầu xuân.',
+    localTip: 'Hãy chiêm ngưỡng những nét chạm khắc đầu đao gỗ thời Lê cổ kính ẩn sâu dưới mái đình.',
+    media: [
+      {
+        id: '12-1',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
+        title: 'Nghệ thuật chạm khắc gỗ cổ tại đình'
+      }
+    ]
+  },
+  {
+    id: 13,
+    name: 'Đình Diến Táo',
+    category: 'Kiến Trúc',
+    summary: 'Ngôi đình cổ thờ Lý Nam Đế (Lý Bôn), mang đậm phong cách kiến trúc dân gian thời Nguyễn.',
+    description: 'Di tích kiến trúc nghệ thuật thờ vua Lý Nam Đế (Lý Bôn) bảo vệ đất nước. Ngôi đình lưu giữ nhiều tác phẩm điêu khắc rồng, mây cầu kỳ cùng nhiều bảo vật, sắc phong bằng đồng cổ kính vô giá.',
+    lat: 21.2085,
+    lng: 105.6812,
+    coverUrl: 'https://images.unsplash.com/photo-1578469645742-46cae010e5d4?auto=format&fit=crop&w=800&q=80',
+    bestTime: '8:00 - 11:00 sáng khi có ánh nắng rọi qua sân đình.',
+    localTip: 'Nên ghé thăm nhà văn hóa gần đó để tìm hiểu thêm giai thoại sáp nhập xã Tiến Thắng.',
+    media: [
+      {
+        id: '13-1',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1578469645742-46cae010e5d4?auto=format&fit=crop&w=800&q=80',
+        title: 'Mái ngói vảy rồng cổ kính'
+      },
+      {
+        id: '13-2',
+        type: 'video',
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        provider: 'youtube',
+        title: 'Lễ hội làng cổ Mê Linh'
+      }
+    ]
   }
 ];

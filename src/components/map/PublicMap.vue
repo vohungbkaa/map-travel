@@ -160,6 +160,37 @@ const loadLocalizedMapStyle = async () => {
   return style;
 };
 
+const getPaddedBounds = (
+  bounds: [[number, number], [number, number]],
+  paddingRatio = 0.18
+): [[number, number], [number, number]] => {
+  const [[west, south], [east, north]] = bounds;
+  const lngPadding = (east - west) * paddingRatio;
+  const latPadding = (north - south) * paddingRatio;
+
+  return [
+    [west - lngPadding, south - latPadding],
+    [east + lngPadding, north + latPadding]
+  ];
+};
+
+const loadBoundaryData = async () => {
+  if (props.areaConfig?.boundaryGeoJson) {
+    return props.areaConfig.boundaryGeoJson;
+  }
+
+  if (!props.areaConfig?.boundaryGeoJsonUrl) {
+    return null;
+  }
+
+  const response = await fetch(props.areaConfig.boundaryGeoJsonUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to load boundary GeoJSON: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 // Category specific styling classes
 const getCategoryClass = (category: string) => {
   switch (category) {
@@ -179,7 +210,7 @@ onMounted(async () => {
   try {
     const initialCenter = props.areaConfig ? props.areaConfig.center : MAP_CONFIG.defaultCenter;
     const initialZoom = props.areaConfig ? props.areaConfig.zoom : MAP_CONFIG.defaultZoom;
-    const initialBounds = props.areaConfig ? props.areaConfig.bounds : undefined;
+    const initialBounds = props.areaConfig ? getPaddedBounds(props.areaConfig.bounds) : undefined;
     const localizedStyle = await loadLocalizedMapStyle();
 
     map.value = new maplibregl.Map({
@@ -234,7 +265,7 @@ onUnmounted(() => {
 });
 
 // Update boundary polygon layer
-const updateBoundaryLayer = () => {
+const updateBoundaryLayer = async () => {
   if (!map.value) return;
   
   const sourceId = 'area-boundary';
@@ -246,10 +277,17 @@ const updateBoundaryLayer = () => {
   if (map.value.getLayer(lineLayerId)) map.value.removeLayer(lineLayerId);
   if (map.value.getSource(sourceId)) map.value.removeSource(sourceId);
   
-  if (props.areaConfig && props.areaConfig.boundaryGeoJson) {
+  let boundaryData = null;
+  try {
+    boundaryData = await loadBoundaryData();
+  } catch (error) {
+    console.error('Failed to load area boundary:', error);
+  }
+
+  if (boundaryData) {
     map.value.addSource(sourceId, {
       type: 'geojson',
-      data: props.areaConfig.boundaryGeoJson
+      data: boundaryData
     });
     
     map.value.addLayer({
@@ -257,8 +295,8 @@ const updateBoundaryLayer = () => {
       type: 'fill',
       source: sourceId,
       paint: {
-        'fill-color': '#6366f1',
-        'fill-opacity': 0.04
+        'fill-color': '#ef4444',
+        'fill-opacity': 0.03
       }
     });
     
@@ -267,9 +305,10 @@ const updateBoundaryLayer = () => {
       type: 'line',
       source: sourceId,
       paint: {
-        'line-color': '#6366f1',
-        'line-width': 1.5,
-        'line-dasharray': [3, 3]
+        'line-color': '#ef4444',
+        'line-width': 2.25,
+        'line-opacity': 0.95,
+        'line-dasharray': [1.2, 1.4]
       }
     });
   }
@@ -326,7 +365,7 @@ watch(() => props.areaConfig, (newConfig) => {
   if (!map.value || !newConfig) return;
   
   // Update max bounds
-  map.value.setMaxBounds(newConfig.bounds);
+  map.value.setMaxBounds(getPaddedBounds(newConfig.bounds));
   
   // Fit bounds
   map.value.fitBounds(newConfig.bounds, {

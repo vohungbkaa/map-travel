@@ -3,21 +3,23 @@
 export interface AreaScope {
   slug: string;
   name: string;
+  provinceCode: string;
   level: 'province' | 'ward';
   parentSlug?: string;
   center: [number, number]; // [lng, lat] for MapLibre
   zoom: number;
   bounds: [[number, number], [number, number]]; // [[west, south], [east, north]]
   boundaryGeoJson?: any;
+  boundaryGeoJsonUrl?: string;
   description: string;
 }
 
 export const MAP_CONFIG = {
-  defaultAreaSlug: 'ha-noi',
+  defaultAreaSlug: 'tien-thang',
   
-  // Center of our demo area (Hanoi, Vietnam)
-  defaultCenter: [105.8521, 21.0285] as [number, number], // [lng, lat] for MapLibre
-  defaultZoom: 14,
+  // Center of our demo area (Xã Tiến Thắng, Mê Linh, Hà Nội)
+  defaultCenter: [105.6775, 21.195] as [number, number], // [lng, lat] for MapLibre
+  defaultZoom: 13.2,
   minZoom: 10,
   maxZoom: 18,
 
@@ -37,9 +39,22 @@ export const MAP_CONFIG = {
 
   // Map areas scope configs
   areas: {
+    'tien-thang': {
+      slug: 'tien-thang',
+      name: 'Xã Tiến Thắng',
+      provinceCode: 'hn',
+      level: 'ward',
+      center: [105.6775, 21.195],
+      zoom: 13.2,
+      bounds: [[105.61, 21.145], [105.745, 21.245]],
+      description: 'Khám phá xã Tiến Thắng, huyện Mê Linh, Hà Nội với các di tích văn hóa lịch sử lâu đời như đình Bạch Trữ, đình Diến Táo và cuộc sống làng quê thanh bình.',
+      boundaryGeoJson: undefined,
+      boundaryGeoJsonUrl: undefined
+    },
     'ha-noi': {
       slug: 'ha-noi',
       name: 'Hà Nội',
+      provinceCode: 'hn',
       level: 'province',
       center: [105.8521, 21.0285],
       zoom: 13,
@@ -63,6 +78,7 @@ export const MAP_CONFIG = {
     'ba-dinh': {
       slug: 'ba-dinh',
       name: 'Quận Ba Đình',
+      provinceCode: 'hn',
       level: 'ward',
       parentSlug: 'ha-noi',
       center: [105.8360, 21.0345],
