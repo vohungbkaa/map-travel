@@ -99,7 +99,7 @@
           <div 
             v-if="selectedPlace" 
             class="detail-sheet"
-            :class="{ 'is-collapsed': !isSheetExpanded }"
+            :class="[drawerWidthClass, { 'is-collapsed': !isSheetExpanded }]"
           >
           <!-- Drawer Collapse/Expand Toggle Tab -->
           <button 
@@ -307,6 +307,15 @@ interface PlaceWithDistance extends Place {
 // Selected Place State
 const selectedPlace = ref<PlaceWithDistance | null>(null);
 const isSheetExpanded = ref(true);
+
+const drawerWidthClass = computed(() => {
+  if (!selectedPlace.value) return '';
+  const mediaCount = selectedPlace.value.media?.length || 0;
+  if (mediaCount === 0) return 'media-count-0';
+  if (mediaCount === 1) return 'media-count-1';
+  if (mediaCount === 2) return 'media-count-2';
+  return 'media-count-3-plus';
+});
 
 // Reset selection on area change
 watch(areaSlug, () => {
@@ -779,7 +788,6 @@ watch(activeViewerMedia, (newVal) => {
   top: 16px;
   right: 16px;
   bottom: 16px;
-  width: 380px;
   max-height: calc(100% - 32px);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -789,7 +797,34 @@ watch(activeViewerMedia, (newVal) => {
   display: flex;
   flex-direction: column;
   overflow: visible; /* Let toggle tab stick out to the left */
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity var(--transition-normal);
+  transition: width 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity var(--transition-normal);
+}
+
+/* Dynamic width based on media count on Desktop */
+.detail-sheet.media-count-0,
+.detail-sheet.media-count-1 {
+  width: 380px;
+}
+
+.detail-sheet.media-count-2 {
+  width: 480px;
+}
+
+.detail-sheet.media-count-3-plus {
+  width: 580px;
+}
+
+@media (max-width: 1200px) {
+  .detail-sheet.media-count-3-plus {
+    width: 480px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .detail-sheet.media-count-2,
+  .detail-sheet.media-count-3-plus {
+    width: 420px;
+  }
 }
 
 .detail-sheet.is-collapsed {
