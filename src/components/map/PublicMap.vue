@@ -34,13 +34,23 @@ const loading = ref(true);
 const markersMap = new Map<number, { marker: maplibregl.Marker; element: HTMLElement }>();
 
 const localizedLabelExpression = [
-  'coalesce',
-  ['get', 'name:vi'],
-  ['get', 'name'],
-  ['get', 'name:nonlatin'],
-  ['get', 'name:latin'],
-  ['get', 'name_en'],
-  ['get', 'name:en']
+  'let',
+  'nameVal',
+  [
+    'coalesce',
+    ['get', 'name:vi'],
+    ['get', 'name'],
+    ['get', 'name:nonlatin'],
+    ['get', 'name:latin'],
+    ['get', 'name_en'],
+    ['get', 'name:en']
+  ],
+  [
+    'case',
+    ['==', ['var', 'nameVal'], 'Phú My'],
+    'Phú Mỹ',
+    ['var', 'nameVal']
+  ]
 ];
 
 const usesNameField = (value: unknown): boolean => {
