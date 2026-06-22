@@ -74,4 +74,17 @@ const router = createRouter({
   }
 });
 
+router.beforeEach((to, _from, next) => {
+  if (to.path.startsWith('/admin') && to.path !== '/admin/login') {
+    const isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+    if (!isAdminLoggedIn) {
+      next('/admin/login');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
 export default router;

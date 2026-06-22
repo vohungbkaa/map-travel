@@ -1,9 +1,16 @@
 <template>
   <div class="public-area animate-fade-in">
+    <!-- Drawer Backdrop Overlay for Mobile -->
+    <div 
+      v-if="isMobileDrawerOpen" 
+      class="drawer-backdrop" 
+      @click="isMobileDrawerOpen = false"
+    ></div>
+
     <!-- Main Workspace -->
     <div class="workspace-grid">
       <!-- Sidebar List -->
-      <aside class="places-sidebar">
+      <aside class="places-sidebar" :class="{ 'mobile-visible': isMobileDrawerOpen }">
         <!-- Area Sidebar Header -->
         <div class="area-sidebar-header">
           <div class="banner-overlay"></div>
@@ -278,11 +285,13 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, inject } from 'vue';
+import type { Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import PublicMap from '../../components/map/PublicMap.vue';
 import { mockPlaces } from '../../data/mockPlaces';
@@ -307,6 +316,9 @@ interface PlaceWithDistance extends Place {
 // Selected Place State
 const selectedPlace = ref<PlaceWithDistance | null>(null);
 const isSheetExpanded = ref(true);
+
+// Inject mobile menu drawer state from PublicLayout
+const isMobileDrawerOpen = inject<Ref<boolean>>('isMobileDrawerOpen', ref(false));
 
 const drawerWidthClass = computed(() => {
   if (!selectedPlace.value) return '';
@@ -405,6 +417,8 @@ const selectPlace = (place: Place) => {
   const foundPlace = placesWithDistance.value.find(p => p.id === place.id);
   if (foundPlace) {
     selectedPlace.value = foundPlace;
+    // Close mobile menu drawer when landmark is selected
+    isMobileDrawerOpen.value = false;
   }
 };
 
@@ -1143,25 +1157,66 @@ watch(activeViewerMedia, (newVal) => {
   text-align: center;
 }
 
+/* Drawer Backdrop Overlay for Mobile */
+.drawer-backdrop {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .drawer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 990; /* Just below the mobile places-sidebar drawer */
+  }
+
   .public-area {
-    height: auto;
+    height: calc(100vh - 56px); /* Fix content container height */
+    overflow: hidden;
   }
   
   .workspace-grid {
-    grid-template-columns: 1fr;
-    height: auto;
-    overflow: visible;
+    display: block; /* Disable grid on mobile */
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
   }
   
   .places-sidebar {
-    height: 450px;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    max-width: 80vw;
+    height: 100%;
+    z-index: 1000; /* Float above map and details sheet */
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .places-sidebar.mobile-visible {
+    transform: translateX(0) !important;
   }
   
   .map-section {
-    height: 450px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    display: block;
   }
 
   .detail-sheet {
@@ -1172,10 +1227,11 @@ watch(activeViewerMedia, (newVal) => {
     top: auto;
     width: 100% !important;
     transform: translateY(0);
-    max-height: 70vh;
+    max-height: 75vh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 110; /* Float above map and other content */
   }
 
   .detail-sheet.is-collapsed {

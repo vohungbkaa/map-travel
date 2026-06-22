@@ -3,21 +3,38 @@
     <!-- Header -->
     <header class="glass-header">
       <div class="nav-container">
-        <router-link to="/" class="logo-text">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <span>LocalMap Story</span>
-        </router-link>
+        <div class="header-left">
+          <!-- Mobile Menu Drawer Toggle Button -->
+          <button 
+            v-if="hasDrawer" 
+            class="mobile-menu-btn" 
+            @click="toggleDrawer" 
+            aria-label="Open landmarks list drawer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          
+          <router-link to="/" class="logo-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>LocalMap Story</span>
+          </router-link>
+        </div>
 
         <nav class="nav-links">
-          <router-link to="/hn/ha-noi" class="nav-link" active-class="active">
-            Demo Area (Ha Noi)
-          </router-link>
-          <router-link to="/admin" class="btn btn-secondary btn-sm-nav">
-            Admin Portal
-          </router-link>
+          <!-- Admin Avatar Icon Button -->
+          <button @click="handleAdminClick" class="btn-avatar" aria-label="Admin Portal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
         </nav>
       </div>
     </header>
@@ -30,44 +47,69 @@
         </transition>
       </router-view>
     </main>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
-// Layout for public route views
+import { ref, computed, provide } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+
+// Provide mobile drawer open state to children (specifically PublicArea.vue)
+const isMobileDrawerOpen = ref(false);
+provide('isMobileDrawerOpen', isMobileDrawerOpen);
+
+const hasDrawer = computed(() => route.name === 'PublicArea');
+
+const toggleDrawer = () => {
+  isMobileDrawerOpen.value = !isMobileDrawerOpen.value;
+};
+
+// Guard/check admin authentication state on click
+const handleAdminClick = () => {
+  const isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+  if (isAdminLoggedIn) {
+    router.push('/admin');
+  } else {
+    router.push('/admin/login');
+  }
+};
 </script>
 
 <style scoped>
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
-.nav-link {
-  font-weight: 600;
+.btn-avatar {
+  background: none;
+  border: none;
   color: var(--text-secondary);
-  font-size: 0.95rem;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all var(--transition-fast);
 }
 
-.nav-link:hover {
-  color: var(--primary);
+.btn-avatar:hover {
   background-color: var(--primary-light);
-}
-
-.nav-link.active {
   color: var(--primary);
-  background-color: var(--primary-light);
-}
-
-.btn-sm-nav {
-  padding: 8px 16px;
-  font-size: 0.875rem;
 }
 
 .footer {
@@ -123,16 +165,23 @@
   transform: translateY(-8px);
 }
 
-@media (max-width: 640px) {
-  .nav-container {
-    flex-direction: column;
-    height: auto;
-    padding: 16px 20px;
-    gap: 16px;
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
   }
-  .nav-links {
-    width: 100%;
-    justify-content: space-between;
+
+  .mobile-menu-btn:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
   }
 }
 </style>
