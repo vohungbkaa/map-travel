@@ -55,6 +55,80 @@ const usesNameField = (value: unknown): boolean => {
   return value.some(usesNameField);
 };
 
+const mergePaint = (layer: any, paint: Record<string, unknown>) => ({
+  ...layer,
+  paint: {
+    ...layer.paint,
+    ...paint
+  }
+});
+
+const applySoftGoogleLikePalette = (layer: any) => {
+  switch (layer.id) {
+    case 'background':
+      return mergePaint(layer, { 'background-color': '#f8f7f2' });
+    case 'park':
+    case 'landcover_wood':
+      return mergePaint(layer, { 'fill-color': '#dcefd8', 'fill-opacity': 0.72 });
+    case 'landuse_residential':
+      return mergePaint(layer, { 'fill-color': '#f4f1ea', 'fill-opacity': 0.55 });
+    case 'water':
+      return mergePaint(layer, { 'fill-color': '#c8e6f5' });
+    case 'waterway':
+      return mergePaint(layer, { 'line-color': '#b7dff0' });
+    case 'building':
+      return mergePaint(layer, {
+        'fill-color': '#ebe8df',
+        'fill-outline-color': '#ddd8cd'
+      });
+    case 'highway_minor':
+    case 'highway_major_inner':
+    case 'highway_motorway_inner':
+    case 'highway_motorway_bridge_inner':
+    case 'tunnel_motorway_inner':
+      return mergePaint(layer, { 'line-color': '#ffffff' });
+    case 'highway_path':
+      return mergePaint(layer, { 'line-color': '#f2f0ea', 'line-opacity': 0.95 });
+    case 'highway_major_casing':
+    case 'highway_motorway_casing':
+    case 'highway_motorway_bridge_casing':
+    case 'tunnel_motorway_casing':
+      return mergePaint(layer, { 'line-color': '#ded9ce' });
+    case 'highway_major_subtle':
+    case 'highway_motorway_subtle':
+      return mergePaint(layer, { 'line-color': '#eee9df' });
+    case 'boundary_2':
+    case 'boundary_3':
+    case 'boundary_disputed':
+      return mergePaint(layer, { 'line-color': '#c7c0b4', 'line-opacity': 0.65 });
+    case 'waterway_line_label':
+    case 'water_name_point_label':
+    case 'water_name_line_label':
+      return mergePaint(layer, {
+        'text-color': '#4f84a3',
+        'text-halo-color': 'rgba(255,255,255,0.85)'
+      });
+    case 'highway-name-path':
+    case 'highway-name-minor':
+    case 'highway-name-major':
+    case 'label_other':
+    case 'label_village':
+    case 'label_town':
+    case 'label_state':
+    case 'label_city':
+    case 'label_city_capital':
+    case 'label_country_1':
+    case 'label_country_2':
+    case 'label_country_3':
+      return mergePaint(layer, {
+        'text-color': '#5f5b53',
+        'text-halo-color': 'rgba(255,255,255,0.9)'
+      });
+    default:
+      return layer;
+  }
+};
+
 const loadLocalizedMapStyle = async () => {
   const response = await fetch(MAP_CONFIG.styleUrl);
   if (!response.ok) {
@@ -63,7 +137,9 @@ const loadLocalizedMapStyle = async () => {
 
   const style = await response.json();
 
-  style.layers = style.layers.map((layer: any) => {
+  style.layers = style.layers.map((rawLayer: any) => {
+    const layer = applySoftGoogleLikePalette(rawLayer);
+
     if (
       layer.type !== 'symbol' ||
       !layer.layout?.['text-field'] ||
