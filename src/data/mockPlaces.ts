@@ -30,14 +30,14 @@ export const mockPlaces: Place[] = [
     description: 'Nằm giữa trung tâm Hà Nội cổ kính, là biểu tượng du lịch lịch sử với cầu Thê Húc đỏ tươi dẫn vào đền Ngọc Sơn trên đảo ngọc nhỏ giữa hồ. Nơi đây là điểm tụ hội văn hóa và đi bộ thư giãn quen thuộc của người dân thủ đô vào mỗi dịp cuối tuần.',
     lat: 21.0285,
     lng: 105.8521,
-    coverUrl: 'https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=800&q=80',
+    coverUrl: 'https://images.unsplash.com/photo-1550950158-d0d960dff51b?auto=format&fit=crop&w=800&q=80',
     bestTime: 'Sáng sớm hoặc hoàng hôn từ Thứ Sáu đến Chủ Nhật (khi có phố đi bộ).',
     localTip: 'Hãy ghé qua quán Cafe Đinh gần đó để thưởng thức ly cafe trứng chuẩn vị Hà Nội cổ.',
     media: [
       {
         id: '1-1',
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=800&q=80',
+        url: 'https://images.unsplash.com/photo-1550950158-d0d960dff51b?auto=format&fit=crop&w=800&q=80',
         title: 'Hồ Gươm sáng sớm'
       },
       {
@@ -76,7 +76,7 @@ export const mockPlaces: Place[] = [
       {
         id: '2-2',
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=800&q=80',
+        url: 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=800&q=80',
         title: 'Nhà bia Tiến sĩ cổ kính'
       }
     ]
@@ -86,7 +86,7 @@ export const mockPlaces: Place[] = [
     name: 'Nhà Thờ Lớn Hà Nội',
     category: 'Kiến Trúc',
     summary: 'Công trình kiến trúc Gothic đặc trưng hoàn thành vào năm 1887.',
-    description: 'Tên chính thức là Nhà thờ chính tòa Thánh Giuse, được xây dựng theo hình mẫu Nhà thờ Đức Bà Paris với hai tháp chuông cao vút và bức tường nhuóom màu thời gian. Đây là điểm check-in cực hot của giới trẻ.',
+    description: 'Tên chính thức là Nhà thờ chính tòa Thánh Giuse, được xây dựng theo hình mẫu Nhà thờ Đức Bà Paris với hai tháp chuông cao vút và bức tường nhuốm màu thời gian. Đây là điểm check-in cực hot của giới trẻ.',
     lat: 21.0288,
     lng: 105.8490,
     coverUrl: 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=800&q=80',
@@ -116,14 +116,14 @@ export const mockPlaces: Place[] = [
     description: 'Con phố ẩm thực ngắn nhưng cực kỳ nổi tiếng trong lòng phố cổ. Về đêm, nơi đây bày kín bàn ghế nhựa, phục vụ bia hơi mát lạnh cùng các món nhậu đường phố như nem chua rán, khoai tây chiên, chim quay.',
     lat: 21.0347,
     lng: 105.8525,
-    coverUrl: 'https://images.unsplash.com/photo-1568644839142-8d97530a614b?auto=format&fit=crop&w=800&q=80',
+    coverUrl: 'https://images.unsplash.com/photo-1505705694340-019e1e335916?auto=format&fit=crop&w=800&q=80',
     bestTime: 'Sau 20:00 tối, đặc biệt đông vui vào ngày cuối tuần.',
     localTip: 'Hãy chọn một bàn nhỏ sát lối đi để vừa uống bia vừa ngắm dòng người tấp nập qua lại.',
     media: [
       {
         id: '4-1',
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1568644839142-8d97530a614b?auto=format&fit=crop&w=800&q=80',
+        url: 'https://images.unsplash.com/photo-1505705694340-019e1e335916?auto=format&fit=crop&w=800&q=80',
         title: 'Bàn ghế nhựa đặc trưng tại Tạ Hiện'
       }
     ]
@@ -149,14 +149,14 @@ export const mockPlaces: Place[] = [
     description: 'Quần thể di tích lịch sử rộng lớn phản ánh lịch sử kinh đô Thăng Long - Hà Nội từ thế kỷ thứ VII đến thế kỷ XXI. Điểm nhấn là Đoan Môn, Kỳ Đài và các hầm chỉ huy quân sự thời kỳ kháng chiến chống Mỹ.',
     lat: 21.0345,
     lng: 105.8398,
-    coverUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=800&q=80',
+    coverUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
     bestTime: 'Mùa thu (tháng 9 - tháng 11) khi thời tiết khô ráo và lá vàng rơi tuyệt đẹp.',
     localTip: 'Có tour đêm Hoàng Thành Thăng Long rất đặc sắc nếu bạn muốn trải nghiệm giải mã di sản dưới ánh đèn lung linh.',
     media: [
       {
         id: '6-1',
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=800&q=80',
+        url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
         title: 'Đoan Môn Hoàng Thành Thăng Long'
       }
     ]

@@ -160,7 +160,7 @@
               class="media-card"
               @click="openMediaViewer(item)"
             >
-              <img :src="item.type === 'video' ? (item.thumbnailUrl || selectedPlace.coverUrl) : item.url" class="media-card-img" draggable="false" />
+              <img :src="getMediaThumbnail(item, selectedPlace)" class="media-card-img" draggable="false" />
               <div v-if="item.type === 'video'" class="media-card-play-overlay">
                 <div class="play-btn-circle">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -466,6 +466,19 @@ const getYoutubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
+};
+
+const getMediaThumbnail = (item: PlaceMedia, place: Place) => {
+  if (item.thumbnailUrl) return item.thumbnailUrl;
+  if (item.type === 'video') {
+    if (item.provider === 'youtube') {
+      const id = getYoutubeId(item.url);
+      if (id) {
+        return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      }
+    }
+  }
+  return item.url || place.coverUrl;
 };
 
 const getYoutubeEmbedUrl = (url: string) => {
