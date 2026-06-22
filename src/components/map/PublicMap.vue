@@ -33,6 +33,57 @@ const loading = ref(true);
 // Keep track of markers to update active states and open popups
 const markersMap = new Map<number, { marker: maplibregl.Marker; element: HTMLElement }>();
 
+const localizedLabelExpression = [
+  'coalesce',
+  ['get', 'name:vi'],
+  ['get', 'name'],
+  ['get', 'name:nonlatin'],
+  ['get', 'name:latin'],
+  ['get', 'name_en'],
+  ['get', 'name:en']
+];
+
+const usesNameField = (value: unknown): boolean => {
+  if (typeof value === 'string') {
+    return value.includes('name');
+  }
+
+  if (!Array.isArray(value)) {
+    return false;
+  }
+
+  return value.some(usesNameField);
+};
+
+const loadLocalizedMapStyle = async () => {
+  const response = await fetch(MAP_CONFIG.styleUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to load map style: ${response.status}`);
+  }
+
+  const style = await response.json();
+
+  style.layers = style.layers.map((layer: any) => {
+    if (
+      layer.type !== 'symbol' ||
+      !layer.layout?.['text-field'] ||
+      !usesNameField(layer.layout['text-field'])
+    ) {
+      return layer;
+    }
+
+    return {
+      ...layer,
+      layout: {
+        ...layer.layout,
+        'text-field': localizedLabelExpression
+      }
+    };
+  });
+
+  return style;
+};
+
 // Category specific styling classes
 const getCategoryClass = (category: string) => {
   switch (category) {
@@ -53,10 +104,11 @@ onMounted(async () => {
     const initialCenter = props.areaConfig ? props.areaConfig.center : MAP_CONFIG.defaultCenter;
     const initialZoom = props.areaConfig ? props.areaConfig.zoom : MAP_CONFIG.defaultZoom;
     const initialBounds = props.areaConfig ? props.areaConfig.bounds : undefined;
+    const localizedStyle = await loadLocalizedMapStyle();
 
     map.value = new maplibregl.Map({
       container: mapContainer.value,
-      style: MAP_CONFIG.styleUrl,
+      style: localizedStyle,
       center: initialCenter,
       zoom: initialZoom,
       minZoom: MAP_CONFIG.minZoom,
