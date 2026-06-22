@@ -13,12 +13,15 @@ Ket qua:
 - Co filter danh muc.
 - Co popup va detail panel.
 - Co route mau.
+- Co cau hinh de vao thang public area mac dinh va gioi han map theo tinh/phuong/xa.
+- Co detail sheet cho landmark voi media carousel anh/video.
 
 Task:
 
 - [tasks/01-project-setup.md](./tasks/01-project-setup.md)
 - [tasks/02-public-map-prototype.md](./tasks/02-public-map-prototype.md)
 - [tasks/03-place-detail-ui.md](./tasks/03-place-detail-ui.md)
+- [tasks/11-public-area-scope-and-media-sheet.md](./tasks/11-public-area-scope-and-media-sheet.md)
 
 ## Phase 2: Noi Dung Mau Dep
 

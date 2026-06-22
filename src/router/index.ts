@@ -6,7 +6,6 @@ import PublicLayout from '../layouts/PublicLayout.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
 
 // Pages
-import LandingPage from '../pages/public/LandingPage.vue';
 import PublicArea from '../pages/public/PublicArea.vue';
 import AdminDashboard from '../pages/admin/AdminDashboard.vue';
 import AdminLogin from '../pages/admin/AdminLogin.vue';
@@ -20,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Landing',
-        component: LandingPage
+        redirect: '/a/ha-noi'
       },
       {
         path: 'a/:areaSlug',
