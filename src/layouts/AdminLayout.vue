@@ -81,6 +81,8 @@ const router = useRouter();
 const isSidebarOpen = ref(false);
 
 const handleLogout = () => {
+  // Clear persistent auth flag
+  localStorage.removeItem('admin_logged_in');
   // Simple logout simulation
   alert('Simulating log out...');
   router.push('/admin/login');

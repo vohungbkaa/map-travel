@@ -87,6 +87,8 @@ const handleLogin = async () => {
     
     // Very simple check for demo validation
     if (email.value === 'admin@localmapstory.com' && password.value === 'admin123') {
+      // Set persistent auth flag
+      localStorage.setItem('admin_logged_in', 'true');
       // Redirect to admin landing
       router.push('/admin');
     } else {

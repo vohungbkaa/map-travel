@@ -79,6 +79,12 @@ const handleAdminClick = () => {
 </script>
 
 <style scoped>
+.nav-container {
+  max-width: none;
+  padding: 0 12px;
+  width: 100%;
+}
+
 .header-left {
   display: flex;
   align-items: center;
