@@ -85,7 +85,7 @@
                   <p class="area-desc-short">{{ area.desc }}</p>
                 </div>
               </td>
-              <td><code>/a/{{ area.slug }}</code></td>
+              <td><code>/{{ area.provinceCode || 'hn' }}/{{ area.slug }}</code></td>
               <td>
                 <span class="badge-status" :class="area.status">
                   {{ area.status === 'published' ? 'Published' : 'Draft' }}
@@ -94,7 +94,7 @@
               <td>{{ area.placesCount }}</td>
               <td>{{ area.routesCount }}</td>
               <td class="actions-cell">
-                <router-link :to="`/a/${area.slug}`" class="btn btn-secondary btn-sm" target="_blank">
+                <router-link :to="`/${area.provinceCode || 'hn'}/${area.slug}`" class="btn btn-secondary btn-sm" target="_blank">
                   View
                 </router-link>
                 <button class="btn btn-secondary btn-sm" @click="editArea(area)">
@@ -120,6 +120,7 @@ const areas = ref([
     id: 1,
     name: 'Hà Nội',
     slug: 'ha-noi',
+    provinceCode: 'hn',
     desc: 'Bản đồ khám phá văn hóa lịch sử, ẩm thực Phố cổ Hà Nội.',
     status: 'published',
     placesCount: 4,

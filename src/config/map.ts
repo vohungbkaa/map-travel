@@ -49,7 +49,7 @@ export const MAP_CONFIG = {
       bounds: [[105.61, 21.145], [105.745, 21.245]],
       description: 'Khám phá xã Tiến Thắng, huyện Mê Linh, Hà Nội với các di tích văn hóa lịch sử lâu đời như đình Bạch Trữ, đình Diến Táo và cuộc sống làng quê thanh bình.',
       boundaryGeoJson: undefined,
-      boundaryGeoJsonUrl: undefined
+      boundaryGeoJsonUrl: '/data/tien-thang.geojson'
     },
     'ha-noi': {
       slug: 'ha-noi',
