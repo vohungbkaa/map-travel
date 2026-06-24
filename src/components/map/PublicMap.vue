@@ -382,7 +382,7 @@ const updateBoundaryLayer = async () => {
       source: maskSourceId,
       paint: {
         'fill-color': '#f8f7f2', // Matching map background color
-        'fill-opacity': 0.82    // Dim out everything outside to 82% opacity
+        'fill-opacity': 0.94    // Dim out everything outside to 94% opacity
       }
     });
   }
