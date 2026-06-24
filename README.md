@@ -64,3 +64,10 @@ Nguyen tac: khong dung Google Maps API, khong dung Google tile URL truc tiep, kh
 4. Lam tuyen tham quan.
 5. Them upload media/storage.
 6. Toi uu mobile, chia se link, SEO co ban.
+
+
+## run build
+ npm run build 
+
+## run ngrok
+npm run preview:public -- --port 4173

@@ -208,27 +208,29 @@ const getCategoryClass = (category: string) => {
   if (clean.includes('am thuc')) return 'marker-am-thuc';
   return '';
 };
-
 // Category custom icon SVG
 const getCategoryIcon = (category: string) => {
   const clean = category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   if (clean.includes('kien truc')) {
     return `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display: block;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display: block; color: #ffffff;">
         <path d="M12 2.5a.75.75 0 0 1 .65.375l2.25 3.9a.75.75 0 0 1-.65 1.125h-4.5a.75.75 0 0 1-.65-1.125l2.25-3.9a.75.75 0 0 1 .65-.375ZM5.25 9a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V9ZM7.5 13.5A1.5 1.5 0 0 1 9 12h6a1.5 1.5 0 0 1 1.5 1.5v6.75a.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V13.5Zm3.75 3v3.75h1.5V16.5h-1.5Z"/>
       </svg>
     `;
   }
   if (clean.includes('am thuc')) {
     return `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display: block;">
-        <path d="M12 2a1 1 0 0 1 .993.883L13 3v.068a8.005 8.005 0 0 1 7.005 7.937A8 8 0 0 1 12 19a8.005 8.005 0 0 1-7.005-7.995 8.005 8.005 0 0 1 6.946-7.935L12 3a1 1 0 0 1 0-2Zm0 3.07a6 6 0 0 0-5 5.925v.01A6 6 0 0 0 12 17a6 6 0 0 0 5-5.995V11a6 6 0 0 0-5-5.93ZM12 8a3 3 0 0 1 2.995 2.824L15 11a3 3 0 0 1-6 0 3 3 0 0 1 3-3Z"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="display: block; color: #ffffff;">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 3c-1.5 3-1.5 15 0 18" />
+        <path d="M12 3c1.5 3 1.5 15 0 18" />
+        <path d="M3 12c3-1.5 15-1.5 18 0" />
+        <path d="M3 12c3 1.5 15 1.5 18 0" />
       </svg>
     `;
   }
   return '';
 };
-
 // Initialize Map
 onMounted(async () => {
   await nextTick();
@@ -382,7 +384,7 @@ const updateBoundaryLayer = async () => {
       source: maskSourceId,
       paint: {
         'fill-color': '#f8f7f2', // Matching map background color
-        'fill-opacity': 0.94    // Dim out everything outside to 94% opacity
+        'fill-opacity': 1    // Dim out everything outside to 94% opacity
       }
     });
   }
@@ -404,6 +406,7 @@ const updateMarkers = () => {
 
     const catClass = getCategoryClass(place.category);
     const isActive = props.selectedPlace?.id === place.id;
+
     const catIcon = getCategoryIcon(place.category);
 
     el.innerHTML = `
@@ -617,25 +620,12 @@ watch(() => props.selectedPlace, (newPlace) => {
 }
 
 :deep(.custom-pin::after) {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: #ffffff;
-  position: absolute;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all var(--transition-normal, 0.25s ease);
-  z-index: 1;
+  display: none !important; /* Hide central dot to show icon clearly */
 }
 
 :deep(.custom-pin-inner) {
   transform: rotate(45deg);
   z-index: 2;
-  color: #ffffff;
-  font-size: 0.7rem;
-  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
